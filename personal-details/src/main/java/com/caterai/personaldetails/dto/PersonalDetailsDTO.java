@@ -1,32 +1,27 @@
-package com.caterai.personaldetails.domain;
+package com.caterai.personaldetails.dto;
 
 import com.caterai.personaldetails.domain.enums.Gender;
 import com.caterai.personaldetails.domain.enums.HeightUnit;
 import com.caterai.personaldetails.domain.enums.WeightUnit;
-import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-@Entity
-public class PersonalDetails {
+@AllArgsConstructor
+public class PersonalDetailsDTO {
 
-    @Id
-    @GeneratedValue
     private Long id;
 
-    @Enumerated(EnumType.STRING)
     private Gender gender;
 
     private Integer age;
 
-    @Enumerated(EnumType.STRING)
     private WeightUnit weightUnit;
 
     private Double weight;
 
-    @Enumerated(EnumType.STRING)
     private HeightUnit heightUnit;
 
     private Integer heightInCm;
