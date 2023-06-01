@@ -23,7 +23,7 @@ public class PersonalDetailsController {
     public ResponseEntity<PersonalDetailsDTO> savePersonalInformations(
             @RequestBody PersonalDetailsDTO personalDetailsDTO
     ) {
-        log.debug("REST request to save FeedbackSession : {}", personalDetailsDTO);
+        log.debug("REST request to save PersonalDetails : {}", personalDetailsDTO);
         PersonalDetailsDTO result = personalDetailsService.save(personalDetailsDTO);
         return ResponseEntity.ok().body(result);
     }
