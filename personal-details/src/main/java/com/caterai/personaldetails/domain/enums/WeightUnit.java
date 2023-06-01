@@ -2,6 +2,13 @@ package com.caterai.personaldetails.domain.enums;
 
 public enum WeightUnit {
 
-    KILOGRAMS, POUNDS
+    KILOGRAMS("Kilograms"),
+    POUNDS("Pounds");
+
+    public final String label;
+
+    private WeightUnit(String label) {
+        this.label = label;
+    }
 
 }
