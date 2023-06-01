@@ -1,0 +1,21 @@
+package com.caterai.chef.dto;
+
+import com.caterai.chef.domain.enums.OrderStatus;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class IncomingOrderDTO {
+
+    private Long id;
+
+    private List<String> contents;
+
+    private OrderStatus status;
+
+}
