@@ -20,7 +20,7 @@ public class CookingOrderController {
     @Autowired
     private CookingOrderService cookingOrderService;
 
-    @PostMapping("/order-meal")
+    @PostMapping("/order")
     public ResponseEntity<CookingOrderDTO> orderCookingOrder(
             @RequestBody IncomingOrderDTO incomingOrderDTO
     ) {
@@ -29,7 +29,7 @@ public class CookingOrderController {
         return ResponseEntity.ok().body(result);
     }
 
-    @PutMapping("/cook-meal/{orderId}/{chefId}")
+    @PutMapping("/{orderId}/{chefId}/cook")
     public ResponseEntity<CookingOrderDTO> cookOrder(
             @PathVariable Long orderId,
             @PathVariable Long chefId
