@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -46,10 +45,10 @@ public class CookingOrderController {
         return ResponseEntity.ok(uncookedOrdersDTO);
     }
 
-//    @GetMapping("/cooked-meals")
-//    public ResponseEntity<List<CookingOrderDTO>> getPersonalInformationById(@RequestParam Long chefId) {
-//        List<CookingOrderDTO> cookedMealsDTO = cookingOrderService.findCookedOrdersByChef(chefId);
-//        return ResponseEntity.ok(cookedMealsDTO);
-//    }
+    @GetMapping("/cooked-meals/{chefId}")
+    public ResponseEntity<List<CookingOrderDTO>> getCookedOrdersByChef(@PathVariable Long chefId) {
+        List<CookingOrderDTO> cookedMealsDTO = cookingOrderService.findCookedOrdersByChef(chefId);
+        return ResponseEntity.ok(cookedMealsDTO);
+    }
 
 }

@@ -7,15 +7,14 @@ import com.caterai.chef.dto.CookingOrderDTO;
 import com.caterai.chef.dto.IncomingOrderDTO;
 import com.caterai.chef.mapper.CookingOrderMapper;
 import com.caterai.chef.mapper.IncomingOrderMapper;
-import com.caterai.chef.repository.ChefRepository;
 import com.caterai.chef.repository.CookingOrderRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -25,7 +24,7 @@ public class CookingOrderService {
 
     private final CookingOrderRepository cookingOrderRepository;
 
-    private final ChefRepository chefRepository;
+    private final ChefService chefService;
 
     private final CookingOrderMapper cookingOrderMapper;
 
@@ -43,19 +42,24 @@ public class CookingOrderService {
     }
 
     @Transactional
-    public CookingOrderDTO cookOrder(Long orderId, Long chefId) {
-        Optional<CookingOrder> cookingOrder = cookingOrderRepository.findById(orderId);
-        Optional<Chef> chef = chefRepository.findById(chefId);
-        if(cookingOrder.isPresent()) {
-            cookingOrder.get().setStatus(OrderStatus.COOKED);
-            cookingOrder.get().setAssignedChef(chef.get());
-            cookingOrderRepository.save(cookingOrder.get());
+    public CookingOrder findCookingOrderById(Long orderId) {
+        return cookingOrderRepository.findById(orderId)
+                .orElseThrow(() -> new EntityNotFoundException("Order not found for id: " + orderId));
+    }
 
-            log.debug("Set status COOKED and chef for: " + cookingOrder);
-            return cookingOrderMapper.toDto(cookingOrder.get());
-        } else {
-            throw new NullPointerException();
-        }
+    @Transactional
+    public CookingOrderDTO cookOrder(Long orderId, Long chefId) {
+
+        CookingOrder cookingOrder = findCookingOrderById(orderId);
+        Chef chef = chefService.findChefById(chefId);
+
+        cookingOrder.setStatus(OrderStatus.COOKED);
+        cookingOrder.setAssignedChef(chef);
+
+        cookingOrderRepository.save(cookingOrder);
+
+        log.debug("Set status COOKED and chef for: " + cookingOrder);
+        return cookingOrderMapper.toDto(cookingOrder);
     }
 
     @Transactional
@@ -66,6 +70,12 @@ public class CookingOrderService {
         log.debug("Returned meals with status ORDERED: " + orderedMealsDTO);
 
         return orderedMealsDTO;
+    }
+
+    @Transactional
+    public List<CookingOrderDTO> findCookedOrdersByChef(Long chefId){
+        List<CookingOrder> ordersCookedByChef = cookingOrderRepository.findCookingOrdersByAssignedChef_Id(chefId);
+        return cookingOrderMapper.toListDto(ordersCookedByChef);
     }
 
 }

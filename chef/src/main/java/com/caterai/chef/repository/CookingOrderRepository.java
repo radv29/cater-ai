@@ -12,4 +12,6 @@ public interface CookingOrderRepository extends JpaRepository<CookingOrder, Long
 
     List<CookingOrder> findCookingOrdersByStatus(OrderStatus orderStatus);
 
+    List<CookingOrder> findCookingOrdersByAssignedChef_Id(Long chefId);
+
 }

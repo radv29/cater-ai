@@ -4,6 +4,7 @@ import com.caterai.chef.domain.Chef;
 import com.caterai.chef.dto.ChefDTO;
 import com.caterai.chef.mapper.ChefMapper;
 import com.caterai.chef.repository.ChefRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +29,12 @@ public class ChefService {
         log.debug("Created chef object: " + chef);
 
         return chefMapper.toDto(chef);
+    }
+
+    @Transactional
+    public Chef findChefById(Long chefId) {
+        return chefRepository.findById(chefId)
+                .orElseThrow(() -> new EntityNotFoundException("Chef not found for id: " + chefId));
     }
 
     public void delete(Long id) {
