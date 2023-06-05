@@ -1,13 +1,14 @@
 package com.caterai.menugeneration.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 @Entity
-public class Menu {
+@Table(name = "menu")
+public class Meal {
 
     @Id
     @GeneratedValue
@@ -15,6 +16,7 @@ public class Menu {
 
     private String mealName;
 
-    private String contents;
+    @ElementCollection
+    private List<String> contents;
 
 }

@@ -1,9 +1,6 @@
 package com.caterai.menugeneration.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -17,8 +14,8 @@ public class MealPlan {
     @GeneratedValue
     private Long id;
 
-    @OneToMany
-    private List<Menu> meals = new ArrayList<>();
+    @OneToMany (cascade = CascadeType.ALL)
+    private List<Meal> menu = new ArrayList<>();
 
     private Integer avgCalories;
 
